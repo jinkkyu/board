@@ -11,6 +11,17 @@
 <!-- header -->
 <%@ include file="include/head.jsp"%>
 
+
+<script type="text/javascript">
+	function goLogin(){				
+		location.href = "/user/login";
+	}
+	
+	function goSignIn(){
+		location.href = "/user/signIn";
+	}
+</script>
+
 <body>
 
 	<%@ include file="include/navigation.jsp"%>
@@ -25,6 +36,10 @@
 			<%@ include file="include/image_slide.jsp"%>
 			
 			
+			<div class="btn_right mt15">
+				<button type="button" class="btn black mr5" onclick="javascript:goLogin();">로그인</button>
+				<button type="button" class="btn black" onclick="javascript:goSignIn();">회원가입</button>
+			</div>
 			
 			<div style="float:left;">
 			<img class="d-block img-fluid" src=/resources/images/image_6.PNG alt="Second slide" style="float:left;">

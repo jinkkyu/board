@@ -15,7 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.board.common.ResultUtil;
 import com.spring.board.dto.BoardDto;
+import com.spring.board.dto.BoardReplyDto;
 import com.spring.board.form.BoardForm;
+import com.spring.board.form.BoardReplyForm;
 import com.spring.board.service.BoardService;
 
 @Controller
@@ -58,6 +60,51 @@ public class BoardController {
 
 		return boardDto;
 	}
+	
+	/** 게시판 - 댓글 목록*/
+	@RequestMapping(value = "/getBoardReply")
+	@ResponseBody
+	public ResultUtil getBoardReply(HttpServletRequest request, HttpServletResponse response, BoardReplyForm boardReplyForm) throws Exception {
+
+		ResultUtil resultUtils = boardService.getBoardReply(boardReplyForm);
+
+		return resultUtils;
+	}
+		
+	//게시판 삭제
+	@RequestMapping(value = "/deleteReply")
+	@ResponseBody
+	public BoardReplyDto deleteReply(HttpServletRequest request, HttpServletResponse response, BoardReplyForm boardReplyForm)
+			throws Exception {
+
+		BoardReplyDto boardReplyDto = boardService.deleteReply(boardReplyForm);
+
+		return boardReplyDto;
+	}
+	
+	//게시글 등록
+	@RequestMapping(value = "/insertRereply")
+	@ResponseBody
+	public BoardReplyDto insertRereply(HttpServletRequest request, HttpServletResponse response, BoardReplyForm boardReplyForm)
+			throws Exception {
+
+		BoardReplyDto boardReplyDto = boardService.insertRereply(boardReplyForm);
+
+		return boardReplyDto;
+	}
+	
+	//게시글 등록
+	@RequestMapping(value = "/insertReply")
+	@ResponseBody
+	public BoardReplyDto insertReply(HttpServletRequest request, HttpServletResponse response, BoardReplyForm boardReplyForm)
+			throws Exception {
+
+		BoardReplyDto boardReplyDto = boardService.insertReply(boardReplyForm);
+
+		return boardReplyDto;
+	}
+	
+
 
 	/** 게시판 - 작성 페이지 이동 */
 	@RequestMapping(value = "/boardWrite")
@@ -133,4 +180,7 @@ public class BoardController {
 
 		return new ModelAndView("fileDownloadUtil", "fileInfo", fileInfo);
 	}
+	
+
+
 }

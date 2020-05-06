@@ -9,8 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import com.spring.board.dto.BoardDto;
 import com.spring.board.dto.BoardFileDto;
+import com.spring.board.dto.BoardReplyDto;
 import com.spring.board.form.BoardFileForm;
 import com.spring.board.form.BoardForm;
+import com.spring.board.form.BoardReplyForm;
+
 
 @Repository
 public class BoardDao {
@@ -25,11 +28,22 @@ public class BoardDao {
 
 		return sqlSession.selectOne(NAMESPACE + ".getBoardCnt", boardForm);
 	}
+	
+	/** 게시판 - 댓글목록 수 */
+	public int getBoardReplyCnt(BoardReplyForm boardReplyForm) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getBoardReplyCnt", boardReplyForm);
+	}
+
 
 	/** 게시판 - 목록 조회 */
 	public List<BoardDto> getBoardList(BoardForm boardForm) throws Exception {
 
 		return sqlSession.selectList(NAMESPACE + ".getBoardList", boardForm);
+	}
+	
+	/** 게시판 - 댓글목록 조회*/
+	public List<BoardReplyDto> getBoardReply(BoardReplyForm boardReplyForm) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getBoardReply", boardReplyForm);
 	}
 
 	/** 게시판 - 조회 수 수정 */
@@ -56,10 +70,20 @@ public class BoardDao {
 		return sqlSession.selectOne(NAMESPACE + ".getBoardReRef", boardForm);
 	}
 	
+	/** 게시판 - 댓글그룹 번호 조회*/
+	public int getRereplyRef(BoardReplyForm boardReplyForm) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getRereplyRef", boardReplyForm);
+	}
+	
 	/** 게시판 - 등록 */
 	public int insertBoard(BoardForm boardForm) throws Exception {
 		return sqlSession.insert(NAMESPACE + ".insertBoard", boardForm);
 	}
+	/** 게시판 - 댓글등록*/
+	 public int insertReply(BoardReplyForm boardReplyForm) throws Exception {
+		return sqlSession.insert(NAMESPACE + ".insertReply", boardReplyForm);
+	}
+	
 	
 	/** 게시판 - 첨부파일 등록 */
 	public int insertBoardFile(BoardFileForm boardFileForm) throws Exception {
@@ -76,7 +100,13 @@ public class BoardDao {
 
 		return sqlSession.delete(NAMESPACE + ".deleteBoard", boardForm);
 	}
+	
+	/** 게시판 - 댓글삭제*/
+	 public int deleteReply(BoardReplyForm boardReplyForm) throws Exception {
 
+		return sqlSession.delete(NAMESPACE + ".deleteReply", boardReplyForm);
+	} 
+	
 	/** 게시판 - 수정 */
 	public int updateBoard(BoardForm boardForm) throws Exception {
 
@@ -88,10 +118,21 @@ public class BoardDao {
 		return sqlSession.selectOne(NAMESPACE + ".getBoardReplyInfo", boardForm);
 	}
 	
+	/** 게시판 - 댓글답글 정보 조회 */
+	 public BoardReplyDto getRereplyInfo(BoardReplyForm boardReplyForm) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getRereplyInfo", boardReplyForm);
+	}
+	
 	/** 게시판 - 답글의 순서 수정 */
 	public int updateBoardReSeq(BoardForm boardForm) throws Exception {
 
 		return sqlSession.update(NAMESPACE + ".updateBoardReSeq", boardForm);
+	}
+	
+	/** 게시판 -댓글 답글의 순서 수정*/
+	 public int updateRereplySeq(BoardReplyForm boardReplyForm) throws Exception {
+
+		return sqlSession.update(NAMESPACE + ".updateRereplySeq", boardReplyForm);
 	}
 	
 	/** 게시판 - 답글 등록 */
@@ -99,9 +140,16 @@ public class BoardDao {
 		return sqlSession.insert(NAMESPACE + ".insertBoardReply", boardForm);
 	}
 	
+	/** 게시판 - 댓글답글 등록*/
+	 public int insertRereply(BoardReplyForm boardReplyForm) throws Exception {
+		return sqlSession.insert(NAMESPACE + ".insertRereply", boardReplyForm);
+	}
+	
 	/** 게시판 - 첨부파일 삭제 */
 	public int deleteBoardFile(BoardFileForm boardFileForm) throws Exception {
 		return sqlSession.update(NAMESPACE + ".deleteBoardFile", boardFileForm);
 	}
+	
+
 	
 }

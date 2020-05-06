@@ -24,7 +24,6 @@
 	
 	/** 게시판 - 작성  */
 	function insertBoard(){
-
 		var boardSubject = $("#board_subject").val();
 		var boardContent = $("#board_content").val();
 			
@@ -44,23 +43,31 @@
 		if(yn){
 				
 			var filesChk = $("input[name='files[0]']").val();
-			if(filesChk == ""){
-				$("input[name='files[0]']").remove();
-			}
-			
-			$("#boardForm").ajaxForm({
-		    
-				url		: "/board/insertBoard",
-				enctype	: "multipart/form-data",
-				cache   : false,
-		        async   : true,
-				type	: "POST",					 	
-				success : function(obj) {
-			    	insertBoardCallback(obj);				
-			    },	       
-			    error 	: function(xhr, status, error) {}
+			var fileSize = document.getElementById("files[0]").files[0].size;
+			var maxSize = 30 * 1024 * 1024;//30MB
+
+			if(fileSize > maxSize){
+				alert("첨부파일 사이즈는 30MB 이내로 등록 가능합니다. ");
+			       return;
+			}else{
+				if(filesChk == ""){
+					$("input[name='files[0]']").remove();
+				}
+				
+				$("#boardForm").ajaxForm({
 			    
-		    }).submit();			 
+					url		: "/board/insertBoard",
+					enctype	: "multipart/form-data",
+					cache   : false,
+			        async   : true,
+					type	: "POST",					 	
+					success : function(obj) {
+				    	insertBoardCallback(obj);				
+				    },	       
+				    error 	: function(xhr, status, error) {}
+				    
+			    }).submit();
+			}		 
 		}
 	}
 	
@@ -89,6 +96,7 @@
 		<div class="inner">		
 			<h2>게시글 작성</h2>
 			<form id="boardForm" name="boardForm" action="/board/insertBoard" enctype="multipart/form-data" method="post" onsubmit="return false;">
+				<input type="hidden" id="ins_user_id" name="ins_user_id" value="<%= session.getAttribute("userId") %>" class="tbox01"/>
 				<table width="100%" class="table02">
 				<caption><strong><span class="t_red">*</span> 표시는 필수입력 항목입니다.</strong></caption>
 				    <colgroup>
@@ -100,9 +108,10 @@
 							<th>제목<span class="t_red">*</span></th>
 							<td><input id="board_subject" name="board_subject" value="" class="tbox01"/></td>
 						</tr>
+
 						<tr>
 							<th>작성자<span class="t_red">*</span></th>
-							<td><input id="board_writer" name="board_writer" value="" class="tbox01"/></td>
+							<td><input id="board_writer" name="board_writer" value="<%= session.getAttribute("userName") %>" class="tbox01"/></td>
 						</tr>
 						<tr>
 							<th>내용<span class="t_red">*</span></th>

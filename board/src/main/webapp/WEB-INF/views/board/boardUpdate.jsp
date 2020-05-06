@@ -8,10 +8,11 @@
 <title>게시판 수정</title>
 <%	
 	String boardSeq = request.getParameter("boardSeq");		
+String currentPageNo = request.getParameter("currentPageNo");
 %>
 
 <c:set var="boardSeq" value="<%=boardSeq%>"/> <!-- 게시글 번호 -->
-
+<c:set var="currentPageNo" value="<%=currentPageNo%>" />
 <!-- 공통 CSS -->
 <link rel="stylesheet" type="text/css" href="/css/common/common.css"/>
 
@@ -19,14 +20,13 @@
 <script type="text/javascript" src="/js/common/jquery.js"></script>
 <script type="text/javascript" src="/js/common/jquery.form.js"></script>
 <script type="text/javascript">
-	
 	$(document).ready(function(){		
 		getBoardDetail();		
 	});
 	
 	/** 게시판 - 목록 페이지 이동 */
-	function goBoardList(){				
-		location.href = "/board/boardList";
+	function goBoardList(currentPageNo){				
+		location.href = "/board/boardList?currentPageNo=" + currentPageNo;
 	}
 	
 	/** 게시판 - 상세 조회  */
@@ -139,23 +139,46 @@
 		if(yn){
 				
 			var filesChk = $("input[name='files[0]']").val();
-			if(filesChk == ""){
-				$("input[name='files[0]']").remove();
+			var fileSize = document.getElementById("files[0]").files[0].size;
+			var maxSize = 30 * 1024 * 1024;//30MB
+
+			if(fileSize > maxSize){
+				alert("첨부파일 사이즈는 30MB 이내로 등록 가능합니다. ");
+			      // return;
+			}else{
+				if(filesChk == ""){
+					$("input[name='files[0]']").remove();
+					
+					$("#boardForm").ajaxForm({
+					    
+						url		: "/board/insertBoard",
+						enctype	: "multipart/form-data",
+						cache   : false,
+				        async   : true,
+						type	: "POST",					 	
+						success : function(obj) {
+					    	insertBoardCallback(obj);				
+					    },	       
+					    error 	: function(xhr, status, error) {}
+					    
+				    }).submit();
+				}else{
+					$("#boardForm").ajaxForm({
+					    
+						url		: "/board/insertBoard",
+						enctype	: "multipart/form-data",
+						cache   : false,
+				        async   : true,
+						type	: "POST",					 	
+						success : function(obj) {
+					    	insertBoardCallback(obj);				
+					    },	       
+					    error 	: function(xhr, status, error) {}
+					    
+				    }).submit();
+				}
+
 			}
-			
-			$("#boardForm").ajaxForm({
-		    
-				url		: "/board/updateBoard",
-				enctype	: "multipart/form-data",
-				cache   : false,
-		        async   : true,
-				type	: "POST",					 	
-				success : function(obj) {
-					updateBoardCallback(obj);				
-			    },	       
-			    error 	: function(xhr, status, error) {}
-			    
-		    }).submit();
 		}
 	}
 	
@@ -194,6 +217,7 @@
 		<div class="inner">	
 			<h2>게시글 상세</h2>
 			<form id="boardForm" name="boardForm" action="/board/updateBoard" enctype="multipart/form-data" method="post" onsubmit="return false;">	
+				<input type="hidden" id="ins_user_id" name="ins_user_id" value="<%= session.getAttribute("userId") %>" class="tbox01"/>
 				<table width="100%" class="table02">
 				<caption><strong><span class="t_red">*</span> 표시는 필수입력 항목입니다.</strong></caption>
 				    <colgroup>
@@ -224,7 +248,7 @@
 				<input type="hidden" id="delete_file"	name="delete_file"	value=""/> <!-- 삭제할 첨부파일 -->
 			</form>
 			<div class="btn_right mt15">
-				<button type="button" class="btn black mr5" onclick="javascript:goBoardList();">목록으로</button>
+				<button type="button" class="btn black mr5" onclick="javascript:goBoardList(${currentPageNo});">목록으로</button>
 				<button type="button" class="btn black" onclick="javascript:updateBoard();">수정하기</button>
 			</div>
 		</div>

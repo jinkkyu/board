@@ -17,6 +17,10 @@ public class BoardForm extends CommonForm {
 	String board_subject;
 	String board_content;
 	int board_hits;
+	int board_num;
+	private String searchType;
+	private String keyword;
+	String file_yn;
 	String del_yn;
 	String ins_user_id;
 	Date ins_date;
@@ -25,7 +29,64 @@ public class BoardForm extends CommonForm {
 	String search_type;
 	String board_file;
 	String delete_file;
+	int reply_count;
+	int file_count;
+	
+	
+	
+	
+	public int getFile_count() {
+		return file_count;
+	}
+	public void setFile_count(int file_count) {
+		this.file_count = file_count;
+	}
+	public int getReply_count() {
+		return reply_count;
+	}
+	public void setReply_count(int reply_count) {
+		this.reply_count = reply_count;
+	}
 
+	private MultipartFile Filedata;
+	private String callback;
+	private String callback_func;
+	
+	
+	public MultipartFile getFiledata() {
+		return Filedata;
+	}
+	public void setFiledata(MultipartFile filedata) {
+		Filedata = filedata;
+	}
+	public String getCallback() {
+		return callback;
+	}
+	public void setCallback(String callback) {
+		this.callback = callback;
+	}
+	public String getCallback_func() {
+		return callback_func;
+	}
+	public void setCallback_func(String callback_func) {
+		this.callback_func = callback_func;
+	}
+	
+	public String getSearchType() {
+		return searchType;
+	}
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+	
+	
+	
 	public List<MultipartFile> getFiles() {
 		return files;
 	}
@@ -146,13 +207,6 @@ public class BoardForm extends CommonForm {
 		this.upd_date = upd_date;
 	}
 
-	public String getSearch_type() {
-		return search_type;
-	}
-
-	public void setSearch_type(String search_type) {
-		this.search_type = search_type;
-	}
 
 	public String getBoard_file() {
 		return board_file;
@@ -169,4 +223,29 @@ public class BoardForm extends CommonForm {
 	public void setDelete_file(String delete_file) {
 		this.delete_file = delete_file;
 	}
+	
+	public int getBoard_num() {
+		return board_num;
+	}
+
+	public void setBoard_num(int board_num) {
+		this.board_num = board_num;
+	}
+	
+	public String getFile_yn() {
+		return file_yn;
+	}
+
+	public void setFile_yn(String file_yn) {
+		this.file_yn = file_yn;
+	}
+	
+	public String getSearch_type() {
+		return search_type;
+	}
+
+	public void setSearch_type(String search_type) {
+		this.search_type = search_type;
+	}
+
 }

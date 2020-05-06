@@ -14,9 +14,11 @@ import com.spring.board.common.PagingUtil;
 import com.spring.board.common.ResultUtil;
 import com.spring.board.dao.BoardDao;
 import com.spring.board.dto.BoardDto;
+import com.spring.board.dto.BoardReplyDto;
 import com.spring.board.dto.CommonDto;
 import com.spring.board.form.BoardFileForm;
 import com.spring.board.form.BoardForm;
+import com.spring.board.form.BoardReplyForm;
 import com.spring.board.form.CommonForm;
 
 @Service
@@ -53,6 +55,40 @@ public class BoardService {
 		resultMap.put("totalCount", totalCount);
 		resultMap.put("pagination", commonDto.getPagination());
 
+		resultUtil.setData(resultMap);
+		resultUtil.setState("SUCCESS");
+
+		return resultUtil;
+	}
+	
+	public ResultUtil getBoardReply(BoardReplyForm boardReplyForm) throws Exception {
+
+		ResultUtil resultUtil = new ResultUtil();
+
+		CommonDto commonDto = new CommonDto();
+		
+		int totalCount = boardDao.getBoardReplyCnt(boardReplyForm);
+		
+		if (totalCount != 0 ) {
+			CommonForm commonForm = new CommonForm();
+			commonForm.setFunction_name(boardReplyForm.getFunction_name());
+			commonForm.setCurrent_page_no(boardReplyForm.getCurrent_page_no());
+			commonForm.setCount_per_page(10);
+			commonForm.setCount_per_list(10);
+			commonForm.setTatal_list_count(totalCount);
+			commonDto = PagingUtil.setPageUtil(commonForm);
+		}
+				
+		boardReplyForm.setLimit(commonDto.getLimit());
+		boardReplyForm.setOffset(commonDto.getOffset());
+
+		List<BoardReplyDto> list = boardDao.getBoardReply(boardReplyForm);
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("list", list);
+		resultMap.put("totalCount", totalCount);
+		resultMap.put("pagination", commonDto.getPagination());
+	
 		resultUtil.setData(resultMap);
 		resultUtil.setState("SUCCESS");
 
@@ -174,6 +210,21 @@ public class BoardService {
 
 		return boardDto;
 	}
+	
+	public BoardReplyDto deleteReply(BoardReplyForm boardReplyForm) throws Exception {
+
+		BoardReplyDto boardReplyDto = new BoardReplyDto();
+
+		int deleteCnt = boardDao.deleteReply(boardReplyForm);
+
+		if (deleteCnt > 0) {
+			boardReplyDto.setResult("SUCCESS");
+		} else {
+			boardReplyDto.setResult("FAIL");
+		}
+
+		return boardReplyDto;
+	}
 
 	/** 게시판 - 수정 */
 	public BoardDto updateBoard(BoardForm boardForm) throws Exception {
@@ -243,4 +294,54 @@ public class BoardService {
 
 		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
+	
+	public BoardReplyDto insertReply(BoardReplyForm boardReplyForm) throws Exception {
+
+		BoardReplyDto boardReplyDto = new BoardReplyDto();
+		
+		//int RereplyRef = boardDao.getRereplyRef(boardReplyForm);
+		//boardReplyForm.setReply_re_ref(RereplyRef);
+
+		
+		int insertCnt = 0;
+
+		insertCnt = boardDao.insertReply(boardReplyForm);
+
+
+		if (insertCnt > 0) {
+			boardReplyDto.setResult("SUCCESS");
+		} else {
+			boardReplyDto.setResult("FAIL");
+		}
+
+		return boardReplyDto;
+	}
+	
+
+	public BoardReplyDto insertRereply(BoardReplyForm boardReplyForm) throws Exception {
+
+		BoardReplyDto boardReplyDto = new BoardReplyDto();
+
+		BoardReplyDto RereplyInfo = boardDao.getRereplyInfo(boardReplyForm);
+
+		boardReplyForm.setBoard_seq(RereplyInfo.getBoard_seq());
+		boardReplyForm.setReply_no(RereplyInfo.getReply_no());
+		boardReplyForm.setReply_re_lev(RereplyInfo.getReply_re_lev());
+		boardReplyForm.setReply_re_ref(RereplyInfo.getReply_re_ref());
+		boardReplyForm.setReply_re_seq(RereplyInfo.getReply_re_seq());
+
+		int insertCnt = 0;
+
+		insertCnt += boardDao.updateRereplySeq(boardReplyForm);
+
+		insertCnt += boardDao.insertRereply(boardReplyForm);
+		if (insertCnt > 0) {
+			boardReplyDto.setResult("SUCCESS");
+		} else {
+			boardReplyDto.setResult("FAIL");
+		}
+		return boardReplyDto;
+	}
+	
+
 }

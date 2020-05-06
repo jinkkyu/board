@@ -17,7 +17,30 @@ public class BoardDto extends CommonDto {
 	String ins_date;
 	String upd_user_id;
 	String upd_date;
+	int board_num;
 	String result;
+	String file_yn;
+	int file_size;
+	int reply_count;
+	int file_count;
+	
+
+	
+	public int getFile_count() {
+		return file_count;
+	}
+
+	public void setFile_count(int file_count) {
+		this.file_count = file_count;
+	}
+
+	public int getReply_count() {
+		return reply_count;
+	}
+
+	public void setReply_count(int reply_count) {
+		this.reply_count = reply_count;
+	}
 
 	List<BoardFileDto> files;
 
@@ -140,5 +163,30 @@ public class BoardDto extends CommonDto {
 	public void setFiles(List<BoardFileDto> files) {
 		this.files = files;
 	}
+	
+	public String getFile_yn() {
+		return file_yn;
+	}
+
+	public void setFile_yn(String file_yn) {
+		this.file_yn = file_yn;
+	}
+
+	public int getBoard_num() {
+		return board_num;
+	}
+
+	public void setBoard_num(int board_num) {
+		this.board_num = board_num;
+	}
+
+	public int getFile_size() {
+		return file_size;
+	}
+
+	public void setFile_size(int file_size) {
+		this.file_size = file_size;
+	}
+	
 
 }

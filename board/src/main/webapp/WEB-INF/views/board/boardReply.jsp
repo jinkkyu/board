@@ -8,9 +8,11 @@
 <title>게시판 답글</title>
 <%	
 	String boardSeq = request.getParameter("boardSeq");		
+	String currentPageNo = request.getParameter("currentPageNo");
 %>
 
 <c:set var="boardSeq" value="<%=boardSeq%>"/> <!-- 게시글 번호 -->
+<c:set var="currentPageNo" value="<%=currentPageNo%>" />
 
 <!-- 공통 CSS -->
 <link rel="stylesheet" type="text/css" href="/css/common/common.css"/>
@@ -24,8 +26,8 @@
 	});
 		
 	/** 게시판 - 목록 페이지 이동 */
-	function goBoardList(){				
-		location.href = "/board/boardList";
+	function goBoardList(currentPageNo){				
+		location.href = "/board/boardList?currentPageNo=" + currentPageNo;
 	}
 	
 	/** 게시판 - 답글 작성  */
@@ -92,6 +94,7 @@
 			<h2>게시글 작성</h2>
 			<form id="boardForm" name="boardForm">
 				<input type="hidden" id="board_parent_seq"	name="board_parent_seq"	value="${boardSeq}"/> <!-- 부모 게시글 번호 -->
+				<input type="hidden" id="ins_user_id" name="ins_user_id" value="<%= session.getAttribute("userId") %>" class="tbox01"/>
 				<table width="100%" class="table02">
 				<caption><strong><span class="t_red">*</span> 표시는 필수입력 항목입니다.</strong></caption>
 				    <colgroup>
@@ -105,7 +108,7 @@
 						</tr>
 						<tr>
 							<th>작성자<span class="t_red">*</span></th>
-							<td><input id="board_writer" name="board_writer" value="" class="tbox01"/></td>
+							<td><input id="board_writer" name="board_writer" value="<%= session.getAttribute("userName") %>" class="tbox01"/></td>
 						</tr>
 						<tr>
 							<th>내용<span class="t_red">*</span></th>
@@ -115,7 +118,7 @@
 				</table>
 			</form>
 			<div class="btn_right mt15">
-				<button type="button" class="btn black mr5" onclick="javascript:goBoardList();">목록으로</button>
+				<button type="button" class="btn black mr5" onclick="javascript:goBoardList(${currentPageNo});">목록으로</button>
 				<button type="button" class="btn black" onclick="javascript:insertBoardReply();">등록하기</button>
 			</div>
 		</div>
