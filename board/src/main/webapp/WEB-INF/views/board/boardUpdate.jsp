@@ -137,48 +137,54 @@ String currentPageNo = request.getParameter("currentPageNo");
 		
 		var yn = confirm("게시글을 수정하시겠습니까?");		
 		if(yn){
-				
+			
 			var filesChk = $("input[name='files[0]']").val();
-			var fileSize = document.getElementById("files[0]").files[0].size;
-			var maxSize = 30 * 1024 * 1024;//30MB
-
-			if(fileSize > maxSize){
-				alert("첨부파일 사이즈는 30MB 이내로 등록 가능합니다. ");
-			      // return;
-			}else{
-				if(filesChk == ""){
-					$("input[name='files[0]']").remove();
+			
+			if (filesChk == "") {
+				$("input[name='files[0]']").remove();
+				
+						var boardContent = $("#board_content").val();
+				console.log(boardContent);
+				$("#boardForm").ajaxForm({	
 					
-					$("#boardForm").ajaxForm({
-					    
-						url		: "/board/insertBoard",
-						enctype	: "multipart/form-data",
-						cache   : false,
-				        async   : true,
-						type	: "POST",					 	
-						success : function(obj) {
-					    	insertBoardCallback(obj);				
-					    },	       
-					    error 	: function(xhr, status, error) {}
-					    
-				    }).submit();
+				    url		: "/board/updateBoard",
+				    enctype : "multipart/form-data",
+			        cache   : false,
+			        async   : true,
+					type	: "POST",	
+			        success : function(obj) {
+			        	updateBoardCallback(obj);				
+			        },	       
+			        error 	: function(xhr, status, error) {}
+			        
+			    }).submit();
+				
+			}else{
+				
+				var fileSize = document.getElementById("files[0]").files[0].size;
+				var maxSize = 30 * 1024 * 1024;//30MB
+				
+				if(fileSize > maxSize){
+					alert("첨부파일 사이즈는 30MB 이내로 등록 가능합니다. ");
+				       return;
 				}else{
+				
 					$("#boardForm").ajaxForm({
-					    
-						url		: "/board/insertBoard",
+				    
+						url		: "/board/updateBoard",
 						enctype	: "multipart/form-data",
 						cache   : false,
 				        async   : true,
 						type	: "POST",					 	
 						success : function(obj) {
-					    	insertBoardCallback(obj);				
+							updateBoardCallback(obj);				
 					    },	       
 					    error 	: function(xhr, status, error) {}
 					    
 				    }).submit();
-				}
-
+				}	
 			}
+				 
 		}
 	}
 	

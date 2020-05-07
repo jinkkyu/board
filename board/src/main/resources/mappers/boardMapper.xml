@@ -54,7 +54,7 @@
 		WHERE DEL_YN = 'N' AND BOARD_SEQ = Board.TB_BOARD.BOARD_SEQ) as reply_count
 		, (SELECT COUNT(*)
 		FROM BOARD.TB_BOARD_FILE
-		WHERE BOARD_SEQ = Board.TB_BOARD.BOARD_SEQ) as file_count
+		WHERE DEL_YN = 'N' AND BOARD_SEQ = Board.TB_BOARD.BOARD_SEQ) as file_count
 		FROM BOARD.TB_BOARD
 		<where>
 			<if test="keyword != null and keyword != '' ">
@@ -368,6 +368,7 @@
 		FROM BOARD.TB_REPLY
 		WHERE DEL_YN = 'N' AND BOARD_SEQ = #{board_seq}
 		ORDER BY REPLY_NO DESC
+		LIMIT #{limit} OFFSET #{offset}
 
 	</select>
 	
@@ -415,7 +416,6 @@
 			, REPLY_WRITER
 			, REPLY_CONTENT
 			, INS_DATE
-			, UPD_DATE
 			, REPLY_ID
 
 					
@@ -426,7 +426,6 @@
 			#{board_seq}
 			, #{reply_writer}
 			, #{reply_content}
-			, NOW()
 			, NOW()
 			, #{reply_id}
 

@@ -113,6 +113,8 @@ public class BoardService {
 		boardFileForm.setBoard_seq(boardForm.getBoard_seq());
 
 		boardDto.setFiles(boardDao.getBoardFileList(boardFileForm));
+		
+		
 
 		return boardDto;
 	}
