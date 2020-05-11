@@ -1,4 +1,5 @@
-<%@page import="org.springframework.web.bind.annotation.SessionAttribute"%>
+<%@page
+	import="org.springframework.web.bind.annotation.SessionAttribute"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -10,12 +11,11 @@
 <title>게시판 상세</title>
 <%
 	String boardSeq = request.getParameter("boardSeq");
-	String currentPageNo = request.getParameter("currentPageNo");
-	//String userIdtest = (String)session.getAttribute("userName");
-	String insUserId = request.getParameter("insUserId");
-	String userId = (String)session.getAttribute("userId");
-	//SessionAttribute("ID",userId);
-	
+String currentPageNo = request.getParameter("currentPageNo");
+//String userIdtest = (String)session.getAttribute("userName");
+String insUserId = request.getParameter("insUserId");
+String userId = (String) session.getAttribute("userId");
+//SessionAttribute("ID",userId);
 %>
 
 <c:set var="boardSeq" value="<%=boardSeq%>" />
@@ -25,8 +25,9 @@
 <c:set var="userId" value="<%=userId%>" />
 <c:set var="insUserId" value="<%=insUserId%>" />
 
-<!-- 공통 CSS -->
-<link rel="stylesheet" type="text/css" href="/css/common/common.css" />
+<%@ include file="../include/head.jsp"%>
+<!-- <!-- 공통 CSS -->
+<!-- <link rel="stylesheet" type="text/css" href="/css/common/common.css" /> -->
 
 <!-- 공통 JavaScript -->
 <script type="text/javascript" src="/js/common/jquery.js"></script>
@@ -97,7 +98,7 @@
 	function getBoardDetailCallback(obj){
 		
 		var str = "";
-		var userId = "<%= session.getAttribute("userId")%>";
+		var userId = "<%=session.getAttribute("userId")%>";
 		if(obj != null){								
 							
 			var boardSeq		= obj.board_seq; 
@@ -179,7 +180,7 @@
 					}		
 					//str += "<tr>";
 					//str += "<th>테스트</th>";
-					str += "<td colspan='5'><button type='button' class='btn black mr5' onclick='javascript:goBoardList(${currentPageNo});'>목록으로</button><button type='button' class='btn black mr5' onclick='javascript:goBoardReply(${currentPageNo});'>답글쓰기</button><button type='button' class='btn black mr5' onclick='javascript:deleteBoard();'>삭제하기</button><button type='button' class='btn black mr5' onclick='javascript:goBoardUpdate(${currentPageNo});'>수정하기</button></td>";
+					str += "<td colspan='5'><button type='button' style='float:right' class='btn btn-success' onclick='javascript:goBoardList(${currentPageNo});'>목록으로</button>&nbsp;<button type='button' class='btn btn-success'  style='float:right' onclick='javascript:goBoardReply(${currentPageNo});'>답글쓰기</button>&nbsp;<button type='button' class='btn btn-success' style='float:right' onclick='javascript:deleteBoard();'>삭제하기</button>&nbsp;<button type='button' class='btn btn-success' style='float:right' onclick='javascript:goBoardUpdate(${currentPageNo});'>수정하기</button></td>";
 					//str += "</tr>";
 					
 						
@@ -216,41 +217,15 @@
 					}		
 					//str += "<tr>";
 					//str += "<th>테스트</th>";
-					str += "<td colspan='5'><button type='button' class='btn black mr5' onclick='javascript:goBoardList(${currentPageNo});'>목록으로</button><button type='button' class='btn black mr5' onclick='javascript:goBoardReply(${currentPageNo});'>답글쓰기</button></td>";
+					if (userId == "null"){
+						str += "<td colspan='5'><button type='button' style='float:right' class='btn btn-success' onclick='javascript:goBoardList(${currentPageNo});'>목록으로</button></td>";
+					}else{
+						str += "<td colspan='5'><button type='button' style='float:right' class='btn btn-success' onclick='javascript:goBoardList(${currentPageNo});'>목록으로</button><button type='button' class='btn btn-success' style='float:right' onclick='javascript:goBoardReply(${currentPageNo});'>답글쓰기</button></td>";
+					}
+					
 					//str += "</tr>";
 				}
 			 
-			
-			/* if(filesLen > 0){
-			
-				for(var a=0; a<filesLen; a++){
-					
-					var boardSeq	= files[a].board_seq;
-					var fileNo 		= files[a].file_no;
-					var fileNameKey = files[a].file_name_key;
-					var fileName 	= files[a].file_name;
-					var filePath 	= files[a].file_path;
-					var fileSize 	= files[a].file_size;
-					var remark 		= files[a].remark;
-					var delYn 		= files[a].del_yn;
-					var insUserId 	= files[a].ins_user_id;
-					var insDate 	= files[a].ins_date;
-					var updUserId 	= files[a].upd_user_id;
-					var updDate 	= files[a].upd_date;
-					
-					
-					
-					
-					str += "<th>첨부파일</th>";
-					//str += "<td onclick='javascript:fileDownload(\"" + fileNameKey + "\", \"" + fileName + "\", \"" + filePath + "\");' style='cursor:Pointer'>"+ fileName +"</td>";
-					str += "<td colspan='3'><a href='/board/fileDownload?fileNameKey="+encodeURI(fileNameKey)+"&fileName="+encodeURI(fileName)+"&filePath="+encodeURI(filePath)+"'>" + fileName + "</a></td>";
-					str += "</tr>";
-					
-				}	
-			}		 */
-			
-			
-			//str += "<a>gdgdgddg</a>";
 			
 		} else {
 			
@@ -344,7 +319,7 @@
 			var totalCount = data.totalCount;
 			var pagination = data.pagination;
 			document.getElementById('totalCount').innerHTML=totalCount
-			var userId = "<%= session.getAttribute("userId")%>";
+			var userId = "<%=session.getAttribute("userId")%>";
 
 			var str = "";
 			
@@ -361,7 +336,7 @@
 			str += "<div class='OneReply'>";
 			str += "<table boder='1'>"
 			if (userId == replyId){
-				str += "<tr><td>"  +"작성자ID : " + replyId + "&nbsp&nbsp | &nbsp&nbsp작성자 : " + replyWriter + "&nbsp&nbsp<span class='date'>&nbsp&nbsp | &nbsp&nbsp&nbsp&nbsp" + subDate[0] + ":" + subDate[1] + "</span> &nbsp&nbsp&nbsp&nbsp <button type='button' class='white'	onclick='javascript:deleteReply(" + replyNo + ");'>삭제</button></td></tr>";
+				str += "<tr><td>"  +"작성자ID : " + replyId + "&nbsp&nbsp | &nbsp&nbsp작성자 : " + replyWriter + "&nbsp&nbsp<span class='date'>&nbsp&nbsp | &nbsp&nbsp&nbsp&nbsp" + subDate[0] + ":" + subDate[1] + "</span> &nbsp&nbsp&nbsp&nbsp <button type='button' class='btn btn-danger'	onclick='javascript:deleteReply(" + replyNo + ");'>삭제</button></td></tr>";
 			}else{
 				str += "<tr><td>"  +"작성자ID : " + replyId + "&nbsp&nbsp | &nbsp&nbsp작성자 : " + replyWriter + "&nbsp&nbsp<span class='date'>&nbsp&nbsp | &nbsp&nbsp&nbsp&nbsp" + subDate[0] + ":" + subDate[1] + "</span> &nbsp&nbsp&nbsp&nbsp </tr>";
 			}
@@ -570,139 +545,172 @@ function insertReply(){
 </script>
 </head>
 <body>
-	<div id="wrap">
-		<div id="container">
-			<div class="inner">
-				<h2>게시글 상세</h2>
 
-				<form id="boardForm" name="boardForm">
-					<table width="100%" class="table01">
-						<colgroup>
-							<col width="15%">
-							<col width="35%">
-							<col width="15%">
-							<col width="*">
-						</colgroup>
-						<tbody id="tbody">
+	<%@ include file="../include/navigation.jsp"%>
+	<div class="container">
+		<div class="row">
 
-						</tbody>
-					</table>
-					<input type="hidden" id="board_seq" name="board_seq"
-						value="${boardSeq}" /> <input type="hidden" id="board_seq"
-						name="board_seq" value="${boardSeq}" /> <input type="hidden"
-						id="insUserId" name="insUserId" value="${insUserId}" />
+			<%@ include file="../include/sidebar.jsp"%>
 
-					<!-- 게시글 번호 -->
-					<input type="hidden" id="search_type" name="search_type" value="S" />
-					<!-- 조회 타입 - 상세(S)/수정(U) -->
-					
-					<!-- <p type="hidden" id="test" name="test">작성자 아이디</p> -->
-					<div id="btn" class="btn_right mt15">
+			<%@ include file="../include/image_slide.jsp"%>
+			<div class="container">
+				<div id="wrap">
+					<div id="container">
+						<div class="inner">
+							<h2>게시글 상세</h2>
 
-					<%-- <button type='button' class='btn black mr5' onclick='javascript:goBoardList(${currentPageNo});'>목록으로</button>;
+							<form id="boardForm" name="boardForm">
+								<table width="100%" class="table table-bordered">
+									<colgroup>
+										<col width="15%">
+										<col width="35%">
+										<col width="15%">
+										<col width="*">
+									</colgroup>
+									<tbody id="tbody">
+
+									</tbody>
+								</table>
+								<input type="hidden" id="board_seq" name="board_seq"
+									value="${boardSeq}" /> <input type="hidden" id="board_seq"
+									name="board_seq" value="${boardSeq}" /> <input type="hidden"
+									id="insUserId" name="insUserId" value="${insUserId}" />
+
+								<!-- 게시글 번호 -->
+								<input type="hidden" id="search_type" name="search_type"
+									value="S" />
+								<!-- 조회 타입 - 상세(S)/수정(U) -->
+
+								<!-- <p type="hidden" id="test" name="test">작성자 아이디</p> -->
+								<div id="btn" class="btn_right mt15">
+
+									<%-- <button type='button' class='btn black mr5' onclick='javascript:goBoardList(${currentPageNo});'>목록으로</button>;
 					<button type='button' class='btn black mr5' onclick='javascript:goBoardReply(${currentPageNo});'>답글쓰기  </button>;
 					<button type='button' class='btn black' onclick='javascript:deleteBoard();'>삭제하기</button>";
 					<button type='button' class='btn black' onclick='javascript:goBoardUpdate(${currentPageNo});'> 수정하기  </button>; --%>
-						
-					</div>
-				</form>
 
-				<%
-					if (session.getAttribute("userId") != null) {
-				%>
-				<form id="boardReplyForm" name="boardReplyForm">
-				
-					<table width="100%" class="table01">
-						<h3>댓글 (<span class="t_red" id="totalCount">*</span>) </h3>
-						
-						<colgroup>
-							<col width="15%">
-							<col width="*">
-						</colgroup>
-						<!-- <input type="hidden" id="function_name" name="function_name" value="getBoardList" />
+								</div>
+							</form>
+
+							<%
+								if (session.getAttribute("userId") != null) {
+							%>
+							<form id="boardReplyForm" name="boardReplyForm">
+
+								<table width="100%" class="table01">
+									<h5>
+										댓글 (<span class="t_red" id="totalCount" style="color:red">*</span>)
+									</h5>
+
+									<colgroup>
+										<col width="15%">
+										<col width="*">
+									</colgroup>
+									<!-- <input type="hidden" id="function_name" name="function_name" value="getBoardList" />
 						<input type="hidden" id="current_page_no" name="current_page_no" value="1" /> -->
-						<input id="reply_id" name="reply_id" value="<%=session.getAttribute("userId")%>" type="hidden" />
-						<input id="reply_writer" name="reply_writer" value="<%=session.getAttribute("userName")%>" type="hidden" />
-					<%-- 	<tr>
+									<input id="reply_id" name="reply_id"
+										value="<%=session.getAttribute("userId")%>" type="hidden" />
+									<input id="reply_writer" name="reply_writer"
+										value="<%=session.getAttribute("userName")%>" type="hidden" />
+									<%-- 	<tr>
 							<th>작성자<span class="t_red">*</span></th>
 							<td class='leftsub'><input id="reply_writer"
 								name="reply_writer"
 								value="<%=session.getAttribute("userName")%>" class="tbox01" /></td>
 						</tr> --%>
-						<tr>
-							<th>내용<span class="t_red">*</span></th>
-							<td class='leftsub'><textarea id="reply_content"
-									name="reply_content" value="" class="tbox01" rows="5" cols="80"></textarea></td>
-						</tr>
-					</table>
-					<div class="btn_right">
-						<button type="button" class="btn black "
-							onclick="javascript:insertReply(${boardSeq},${currentPageNo});">댓글달기</button>
-					</div>
-					<!-- <div class="showreply">
+									<tr>
+										<th>내용<span class="t_red" style="color:red">*</span></th>
+										<td class='leftsub'><textarea id="reply_content"
+												name="reply_content" value="" class="form-control" rows="5"
+												cols="80"></textarea></td>
+									</tr>
+								</table>
+								<br>
+								<div class="btn_right">
+									<button type="button" class="btn btn-success" style="float:right"
+										onclick="javascript:insertReply(${boardSeq},${currentPageNo});">댓글달기</button>
+								</div>
+								<!-- <div class="showreply">
 						<h3>
 							댓글<a href="#" onClick="javascript:showReply();" class="reply"
 								id="replyhide">보기></a>
 						</h3>
 					</div> -->
-					<div id="reply" name="reply" style="display: block">
-						<div id="tbody_reply"></div>
+								<div id="reply" name="reply" style="display: block">
+									<div id="tbody_reply"></div>
+								</div>
+
+								<input type="hidden" id="board_seq" name="board_seq"
+									value="${boardSeq}" />
+							</form>
+							<form id="boardReplyForm2" name="boardReplyForm2">
+								<input type="hidden" id="function_name" name="function_name"
+									value="getBoardReply" /> <input type="hidden" id="board_seq"
+									name="board_seq" value="${boardSeq}" /> <input type="hidden"
+									id="current_page_no" name="current_page_no" value="1" />
+							</form>
+
+							<form id="boardReplyForm3" name="boardReplyForm3">
+								<input type="hidden" id="board_seq" name="board_seq"
+									value="${boardSeq}" /> <input type="hidden" id="reply_no"
+									name="reply_no" value="" />
+							</form>
+							<div id="pagination"></div>
+							<%
+								}
+							if (session.getAttribute("userId") == null) {
+							%>
+							<h5>댓글작성은 로그인후 사용 가능합니다.</h5>
+							<form id="boardReplyForm" name="boardReplyForm">
+								<!-- <table width="100%" class="table01"> -->
+								
+								<br>
+								<br>
+								
+								<h5>
+									댓글 (<span class="t_red" id="totalCount" style="color:red">*</span>)
+								</h5>
+								
+								<div id="reply" name="reply" style="display: block">
+									<div id="tbody_reply"></div>
+								</div>
+
+								<input type="hidden" id="board_seq" name="board_seq"
+									value="${boardSeq}" />
+							</form>
+							<form id="boardReplyForm2" name="boardReplyForm2">
+								<input type="hidden" id="function_name" name="function_name"
+									value="getBoardReply" /> <input type="hidden" id="board_seq"
+									name="board_seq" value="${boardSeq}" /> <input type="hidden"
+									id="current_page_no" name="current_page_no" value="1" />
+							</form>
+
+							<form id="boardReplyForm3" name="boardReplyForm3">
+								<input type="hidden" id="board_seq" name="board_seq"
+									value="${boardSeq}" /> <input type="hidden" id="reply_no"
+									name="reply_no" value="" />
+							</form>
+							<div id="pagination"></div>
+							<%
+								}
+							%>
+
+						</div>
 					</div>
-
-					<input type="hidden" id="board_seq" name="board_seq"
-						value="${boardSeq}" />
-				</form>
-				<form id="boardReplyForm2" name="boardReplyForm2">
-				<input type="hidden" id="function_name" name="function_name" value="getBoardReply" />
-					<input type="hidden" id="board_seq" name="board_seq"
-						value="${boardSeq}" /> <input type="hidden" id="current_page_no"
-						name="current_page_no" value="1" />
-				</form>
-
-				<form id="boardReplyForm3" name="boardReplyForm3">
-					<input type="hidden" id="board_seq" name="board_seq"
-						value="${boardSeq}" /> <input type="hidden" id="reply_no"
-						name="reply_no" value="" />
-				</form>
-				<div id="pagination"></div>
-				<%
-					}
-				if (session.getAttribute("userId") == null) {
-				%>
-				<h3>
-							댓글작성은 로그인후 사용 가능합니다.
-				</h3>
-				<form id="boardReplyForm" name="boardReplyForm">
-					<!-- <table width="100%" class="table01"> -->
-					
-						<h3>댓글 (<span class="t_red" id="totalCount">*</span>) </h3>
-						
-					<div id="reply" name="reply" style="display: block">
-						<div id="tbody_reply"></div>
-					</div>
-
-					<input type="hidden" id="board_seq" name="board_seq"
-						value="${boardSeq}" />
-				</form>
-				<form id="boardReplyForm2" name="boardReplyForm2">
-				<input type="hidden" id="function_name" name="function_name" value="getBoardReply" />
-					<input type="hidden" id="board_seq" name="board_seq"
-						value="${boardSeq}" /> <input type="hidden" id="current_page_no"
-						name="current_page_no" value="1" />
-				</form>
-
-				<form id="boardReplyForm3" name="boardReplyForm3">
-					<input type="hidden" id="board_seq" name="board_seq"
-						value="${boardSeq}" /> <input type="hidden" id="reply_no"
-						name="reply_no" value="" />
-				</form>
-				<div id="pagination"></div>
-				<%
-					}
-				%>
+				</div>
 
 			</div>
+
+
+
 		</div>
 	</div>
+	</div>
+
+
+	<%@ include file="../include/footer.jsp"%>
+
+	<%@ include file="../include/plugin_js.jsp"%>
+
 </body>
 </html>

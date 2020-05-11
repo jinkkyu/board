@@ -9,9 +9,9 @@
 
 <%
 	//String boardSeq = request.getParameter("boardSeq");
-	String currentPageNo = request.getParameter("currentPageNo");
-	String searchType = request.getParameter("searchType");
-	String keyword = request.getParameter("keyword");
+String currentPageNo = request.getParameter("currentPageNo");
+String searchType = request.getParameter("searchType");
+String keyword = request.getParameter("keyword");
 %>
 
 <c:set var="currentPageNo" value="<%=currentPageNo%>" />
@@ -20,10 +20,10 @@
 
 
 <!-- 공통 CSS -->
-<link rel="stylesheet" type="text/css" href="/css/common/common.css" />
-
+<!-- <link rel="stylesheet" type="text/css" href="/css/common/common.css" /> -->
+<%@ include file="../include/head.jsp"%>
 <!-- 공통 JavaScript -->
-<script type="text/javascript" src="/js/common/jquery.js"></script>
+<!-- <script type="text/javascript" src="/js/common/jquery.js"></script> -->
 <script type="text/javascript">
 	$(document).ready(function() {
 		
@@ -152,7 +152,7 @@
 							str += boardSubject + "&nbsp;&nbsp;<img class='img' src='/resources/images/disk.png' alt='disk'>"
 							+ "</td>";
 						}else{
-							str += boardSubject + " (" +"<span class='t_red'>" +replyCnt + "</span>"+") "+"&nbsp;&nbsp;<img class='img' src='/resources/images/disk.png' alt='disk'>"
+							str += boardSubject + " (" +"<span class='t_red' style='color:red'>" +replyCnt + "</span>"+") "+"&nbsp;&nbsp;<img class='img' src='/resources/images/disk.png' alt='disk'>"
 							+ "</td>";
 						}
 						//str += boardSubject
@@ -162,7 +162,7 @@
 						if (replyCnt == 0){
 							str += boardSubject + "</td>";
 						}else{
-							str += boardSubject + " (" +"<span class='t_red'>" +replyCnt + "</span>"+") "+ "</td>";
+							str += boardSubject + " (" +"<span class='t_red' style='color:red'>" +replyCnt + "</span>"+") "+ "</td>";
 						}
 						
 				
@@ -236,9 +236,15 @@
 </head>
 <body>
 
+	<%@ include file="../include/navigation.jsp"%>
+	<div class="container">
+    <div class="row">
 
-
-	<div id="wrap">
+			<%@ include file="../include/sidebar.jsp"%>
+			
+			<%@ include file="../include/image_slide.jsp" %>
+			<div class="container">
+			<div id="wrap">
 		<div id="container">
 			<div class="inner">
 				<h2>게시글 목록</h2>
@@ -247,7 +253,7 @@
 				%>
 				<span><%=session.getAttribute("userName")%>님 반갑습니다.</span><br>
 				<span><%=session.getAttribute("userId")%> 아이디로 로그인 되었습니다.</span>
-				<button type="button" class="btn black mr5"
+				<button type="button" class="btn btn-success"
 					onclick="javascript:logout();">로그아웃</button>
 				<%
 					}
@@ -255,9 +261,9 @@
 				<%
 					if (session.getAttribute("userId") == null) {
 				%>
-				<button type="button" class="btn black mr5"
+				<button type="button" class="btn btn-success"
 					onclick="javascript:goLogin();">로그인</button>
-				<button type="button" class="btn black mr5"
+				<button type="button" class="btn btn-success"
 					onclick="javascript:goSignIn();">회원가입</button>
 				<%
 					}
@@ -270,11 +276,11 @@
 						type="hidden" name="keyword" id="keyword" value="${keyword}">
 
 					<div class="page_info">
-						<span class="total_count"><strong>전체</strong> : <span
-							id="total_count" class="t_red">0</span>개</span>
+						<span class="total_count" style="float:right"><strong>전체</strong> : <span
+							id="total_count" class="t_red" style="color:red">0</span>개</span>
 					</div>
 
-					<table width="100%" class="table01">
+					<table width="100%" class="table table-bordered">
 						<colgroup>
 							<col width="10%" />
 							<col width="25%" />
@@ -296,28 +302,55 @@
 						</tbody>
 					</table>
 				</form>
-				<div class="btn_right mt15">
+				<form class="form-inline">
+				<div class="form-group" style="float:right">
+
 				<select class="form-control" id= "selectbox" onchange="document.getElementById('searchType').value = this.options[this.selectedIndex].value">
 						<!-- <option value=''>-----</option> -->
 						<option value='' >선택</option>
 						<option value='subject'>제목</option>
 						<option value='content'>내용</option>
 						<option value='writer'>작성자</option>
+						<option value='Id'>작성자ID</option>
 						
-					</select> <input type="text"
-						onchange="document.getElementById('keyword').value = this.value"
-						class="form-control" value="${keyword}">
+					</select> 
+					<input type="text"	onchange="document.getElementById('keyword').value = this.value" class="form-control" value="${keyword}">
 
-					<button type="button" class="btn black" name="btnSearch"
+					<button type="button" class="btn btn-success" name="btnSearch"
 						id="btnSearch" onclick="javascript:searchBoard(${currentPageNo});">검색</button> 
-					<button type="button" class="btn black mr5"
+						&nbsp;
+					<button type="button" class="btn btn-success"
 						onclick="javascript:goBoardWrite(${currentPageNo});">작성하기</button>
+
+				
 				</div>
+				</form>
 			</div>
+			
 
 			<div id="pagination"></div>
 
 		</div>
 	</div>
+			
+			</div>
+
+		
+	
+	</div>
+	</div>
+	</div>
+
+
+	
+	
+	<%@ include file="../include/footer.jsp"%>
+
+	<%@ include file="../include/plugin_js.jsp"%>
+	
+	
+	
+
+	
 </body>
 </html>
