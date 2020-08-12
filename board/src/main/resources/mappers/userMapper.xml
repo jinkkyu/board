@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.board.userMapper">
+	<!-- 회원가입 -->
+	<insert id="doSignIn" parameterType="com.spring.user.form.UserForm">
+		
+		INSERT 
+		INTO BOARD.myMember
+		(
+		  	    userId
+		  	  , userPass
+		  	  , userName
+		  	  , userEmail
+		  	  , userGender
+		  	  , regDate
+		) 
+		VALUES 
+		(
+			  #{userId}
+			, #{userPass}
+			, #{userName}
+			, #{userEmail}
+			, #{userGender}
+			, NOW() 
+		)
+	
+	</insert>
+	
+	<!-- 회원가입 중복확인 -->
+	<select id="confirmId"  resultType="int">	 
+		 SELECT COUNT(*) FROM board.myMember
+			WHERE USERID = #{userId}
+	</select>
+	
+	<!-- 로그인 아이디 체크 -->
+	<select id="idCheck" parameterType="com.spring.user.form.UserForm" resultType="int">
+		SELECT count(*) FROM board.myMember where userId = #{userId}
+	</select>
+	<!-- 로그인 -->
+	<select id="doLogin" parameterType="com.spring.user.form.UserForm" resultType="com.spring.user.dto.UserDto">
+		SELECT userPass, userName FROM board.myMember WHERE userId = #{userId}
+	</select>
+	
+	
+</mapper>

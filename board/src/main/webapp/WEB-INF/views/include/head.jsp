@@ -14,6 +14,7 @@
 
   <!-- Custom styles for this template -->
   <link href="/resources/css/shop-homepage.css" rel="stylesheet">
+
   
   <script>
 
