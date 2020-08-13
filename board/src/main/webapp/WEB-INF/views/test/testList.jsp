@@ -1,19 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page session="false"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
 <!DOCTYPE html>
 <html lang="ko">
 
 <!-- header -->
-<%@ include file="include/head2.jsp"%>
+<%@ include file="../include/head2.jsp"%>
 
 <body>
 
-	<%@ include file="include/navigation.jsp"%>
+	<%@ include file="../include/navigation.jsp"%>
 
 	<!-- Page Content -->
 	<div class="container">
@@ -21,9 +20,9 @@
 		<div class="row">
 			<br><br><br><br><br><br><br><br><br><br><br><br>
 
-			<%@ include file="include/sidebar.jsp"%>
+			<%@ include file="../include/sidebar.jsp"%>
 			
-			<%@ include file="include/image_slide.jsp" %>
+			<%@ include file="../include/image_slide.jsp" %>
 			<div class="container">
 			
 			<h2>공통 마스터 코드</h2>
@@ -99,9 +98,9 @@
 
 
 
-	<%@ include file="include/footer.jsp"%>
+	<%@ include file="../include/footer.jsp"%>
 
-	<%@ include file="include/plugin_js.jsp"%>
+	<%@ include file="../include/plugin_js.jsp"%>
 
 </body>
 

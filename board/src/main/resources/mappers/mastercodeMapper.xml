@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.board.mastercodeMapper">
+
+	<!-- 게시물 목록 -->
+	<!-- 데이터를 불러올때는 result Type 사용 -->
+	<select id="getMasterList"
+		parameterType="com.spring.mastercode.form.MasterCodeForm"
+		resultType="com.spring.mastercode.dto.MasterCodeDto">
+		select
+		mcode_seq, mcode, mdesc, remarks,
+		use_yn, modify_id, modify_date
+		from commoncode
+	</select>
+</mapper>
+
