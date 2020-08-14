@@ -80,30 +80,32 @@
 		grid_store.load( {params: {search_field: search_field, search_words:encodeURI(search_words)}});
 	}
 	
-	function onView( mcode ){
+	function onView(mcode){
 		var frm = frm_code;
+		
+		//alert(mcode);
 		
 		frm.mcode.value = mcode;
 		
 		$.ajax({
-			url:'/common/CommonCode/detail.hanil',
+			url:'/test/getMasterDetail',
 			type:'post',
 			data:$(frm).serialize(),
 			error:function(){
-				
+				alert("오류에유");
 			},
 			success:function(obj){
-				frm_code.mcode.value = obj.commoncode.mcode;
+				//alert(obj.mcode + "입니다.");
+				frm_code.mcode.value = obj.mcode;
+				document.getElementById("txt_code_id").value = obj.mcode;
+				document.getElementById("txt_code_name").value = obj.mdesc;
 				
-				document.getElementById("txt_code_id").value = obj.commoncode.mcode;
-				document.getElementById("txt_code_name").value = obj.commoncode.mdesc;
-				
-				if(obj.commoncode.use_yn == "Y"){
+				if(obj.use_yn == "Y"){
 					document.getElementById("use_y").checked = true;
 				} else{
 					document.getElementById("use_n").checed = true;
 				}
-				document.getElementById("txt_code_remarks").value = obj.commoncode.remarks;
+				document.getElementById("txt_code_remarks").value = obj.remarks;
 				btnDisplay("update");
 			}
 		});
@@ -132,22 +134,18 @@
 		frm.use_yn.value = document.getElementById("use_y").checked==true?"Y":"N";
 		
 		$.ajax({
-			url:'/common/CommonCode/insert.hanil',
+			url:'/test/insertMaster',
 			type: 'post',
 			data:$(frm).serialize(),
 			error:function(){
-				
+				alert("중복된 데이터가 있습니다.");
+				document.getElementById("txt_code_id").focus();
 			},
 			success:function(obj){
-				if(obj.count==0){
+
 					alert("저장 하였습니다.");
 					grid_store.load();
-				
 					onInit();
-				}else if(obj.count=99){
-					alert("중복된 데이터가 있습니다.");
-					document.getElementById("txt_code_id").focus();
-				}
 				
 			}
 		});
@@ -175,7 +173,7 @@
 		frm.use_yn.value = document.getElementById("use_y").checked==true?"Y":"N";
 		
 		$.ajax({
-			url:'/common/CommonCode/update.hanil',
+			url:'/test/updateMaster',
 			type:'post',
 			data:$(frm).serialize(),
 			error:function(){
@@ -199,7 +197,7 @@
 		frm.mcode.value = frm_code.mcode.value;
 		alert(frm.mcode.value);
 		$.ajax({
-			url:'/common/CommonCode/delete.hanil',
+			url:'/test/deleteMaster',
 			type:'post',
 			data:$(frm).serialize(),
 			error:function(){
@@ -241,7 +239,13 @@
 	}
 </script>
 
-  
+ <%
+String search_field = request.getParameter("search_field");
+String search_words = request.getParameter("search_words");
+%>
+
+<c:set var="search_field" value="<%=search_field%>" />
+<c:set var="search_words" value="<%=search_words%>" />
   
   
 

@@ -77,10 +77,10 @@
 		</table>
 		
 		<div id="btn">
-			<span class="myButton" id="btn_insert" onclick="onInsert();">저장</span>
-			<span class="myButton" id="btn_update" onclick="onUpdate();" style="display:none;">수정</span>
-			<span class="myButton" id="btn_delete" onclick="onDelete();" style="display:none">삭제</span>
-			<span class="myButton" id="btn_init" onclick="onInit();">초기화</span>
+			<span class="btn btn-success" id="btn_insert" onclick="onInsert();">저장</span>
+			<span class="btn btn-success" id="btn_update" onclick="onUpdate();" style="display:none;">수정</span>
+			<span class="btn btn-success" id="btn_delete" onclick="onDelete();" style="display:none">삭제</span>
+			<span class="btn btn-success" id="btn_init" onclick="onInit();">초기화</span>
 		</div>
 	</div>
 

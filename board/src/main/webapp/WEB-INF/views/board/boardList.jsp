@@ -86,6 +86,7 @@ String keyword = request.getParameter("keyword");
 			async : true,
 			type : "POST",
 			success : function(obj) {
+				alert(obj);
 				getBoardListCallback(obj);
 			},
 			error : function(xhr, status, error) {

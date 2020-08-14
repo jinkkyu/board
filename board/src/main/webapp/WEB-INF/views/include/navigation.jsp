@@ -26,7 +26,11 @@
             <a class="nav-link" href="/board/boardList" >FAQ</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/test/testList" >조직도</a>
+            <a class="nav-link" href="/test/organization" >조직도</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/test/testList" >마스터코드</a>
           </li>
         </ul>
       </div>

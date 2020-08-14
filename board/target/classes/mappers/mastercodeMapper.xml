@@ -11,7 +11,88 @@
 		select
 		mcode_seq, mcode, mdesc, remarks,
 		use_yn, modify_id, modify_date
-		from commoncode
+		from BOARD.commoncode
+		<!--  
+		<where>
+			<if test="search_words != null and search_words != '' ">
+				<if test="search_field=='1'">
+					AND mcode like CONCAT('%', #{search_words}, '%')
+				</if>
+				<if test="search_field=='2''">
+					AND mdesc like CONCAT('%', #{search_words}, '%')
+				</if>
+
+			</if>
+		</where>-->
 	</select>
+	
+	<select id="getMasterDetail"
+		parameterType="com.spring.mastercode.form.MasterCodeForm"
+		resultType="com.spring.mastercode.dto.MasterCodeDto">
+
+		select
+		mcode_seq, mcode, mdesc, remarks,
+		use_yn, modify_id, modify_date
+		from BOARD.commoncode
+		WHERE mcode = #{mcode}
+
+	</select>
+	
+	<insert id="insertMaster"
+		parameterType="com.spring.mastercode.form.MasterCodeForm">
+
+		<selectKey resultType="int" keyProperty="mcode_seq"
+			order="AFTER">
+
+			SELECT LAST_INSERT_ID()
+
+		</selectKey>
+
+		INSERT
+		INTO BOARD.commoncode
+		(
+		mcode,
+		mdesc,
+		remarks,
+		use_yn,
+		modify_id,
+		modify_date
+
+		)
+		VALUES
+		(
+		  #{mcode}
+		, #{mdesc}
+		, #{remarks}
+		, #{use_yn}
+		, "testuser"
+		, NOW()
+		)
+		
+
+	</insert>
+	
+	<delete id="deleteMaster"
+		parameterType="com.spring.mastercode.form.MasterCodeForm">
+
+		DELETE
+		FROM BOARD.commoncode
+		WHERE mcode = #{mcode}
+
+	</delete>
+
+	<delete id="updateMaster"
+		parameterType="com.spring.mastercode.form.MasterCodeForm">
+
+		UPDATE BOARD.commoncode
+		SET mcode = #{mcode},
+		mdesc = #{mdesc},
+		remarks = #{remarks},
+		use_yn = #{use_yn},
+		modify_id = "update_user",
+		modify_date = NOW()
+		WHERE mcode = #{mcode}
+
+	</delete>
 </mapper>
 
