@@ -41,11 +41,6 @@ public class MasterCodeController {
 	 private MasterCodeService masterService;
 	 
 	
-	 @RequestMapping(value = "/organization")
-		public String organization(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-			return "test/organization";
-		}
 	 
 	@RequestMapping(value = "/testList")
 	public String testList(HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -32,6 +32,8 @@
 		<input type="hidden" name="mdesc">
 		<input type="hidden" name="remarks">
 		<input type="hidden" name="use_yn">
+		<input type="hidden" name="search_field" value=""${search_field}">
+		<input type="hidden" name="search_words" value="${search_words}">
 	</form>
 	
 	<div class="search">

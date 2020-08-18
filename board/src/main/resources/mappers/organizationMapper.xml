@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.board.organizationMapper">
+
+	<!-- 데이터를 불러올때는 result Type 사용 -->
+	<select id="getOrganizationList"
+		parameterType="com.spring.mastercode.form.OrganizationForm"
+		resultType="com.spring.mastercode.dto.OrganizationDto">
+		select
+		*
+		from BOARD.organization
+		  
+	</select>
+	
+	
+	
+</mapper>
+

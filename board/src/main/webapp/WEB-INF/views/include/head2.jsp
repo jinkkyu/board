@@ -76,6 +76,7 @@
 	function onCodeSearch(){
 		var search_field = document.getElementById("search_field").value;
 		var search_words = document.getElementById("search_words").value;
+		alert(search_field);
 		alert(search_words);
 		grid_store.load( {params: {search_field: search_field, search_words:encodeURI(search_words)}});
 	}
