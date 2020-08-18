@@ -372,6 +372,135 @@
 			
 		}
 	}
+	
+	
+	Ext.onReady(function(){
+		Ext.create('Ext.tree.Panel',{
+			width : 500,
+			height : 800,
+			title : '한일네트웍스 조직도 ',
+			store : Ext.create('Ext.data.TreeStore',{
+				 root : {
+					    text: '한일네트웍스',
+					    expanded: true,
+					    children: [
+							{
+					            text: '임원실',
+					            expanded: true,
+					            children: [{ 
+				                		leaf:true, 
+				                		text: '박지훈 대표이사' 
+			                		},{ 
+				                		leaf:true, 
+				                		text: '허기수 부사장' 
+			                		},{ 
+				                		leaf:true, 
+				                		text: '이재승 전무' 
+			                		}]
+					        },{
+					            text: 'DSC사업부',
+					            expanded: true,
+					            children: [{ 
+					            		leaf:true, 
+					            		text: '차장-이순신' 
+				            		},{ 
+			            				leaf:true, 
+			            				text: '과장-장영실' 
+		            				}]
+					        },{
+					            text: 'SM사업부',
+					            expanded: false,
+					            children: [{ 
+				                		leaf:true, 
+				                		text: '민기혁 상무보'
+				                		
+						                		},{
+						                			text: '사업1팀',
+						                			expanded:false,
+						                			children:[{
+								                				text: 'ERP1파트',
+								                				expanded:false,
+								                			},{
+								                				text: 'ERP2파트',
+								                				expanded:false,
+								                			},{
+								                				text: 'ERP3파트',
+								                				expanded:false,
+								                			}]
+						                		},{
+						                			text: '사업2팀',
+						                			expanded:false,
+						                			children:[{
+								                				text: '인프라파트',
+								                				expanded:false,
+						                			},{
+						                				text: '그룹웨어파트',
+						                				expanded:false,
+						                			},{
+						                				text: '웹파트',
+						                				expanded:false,
+						                			}]
+			                		}]
+					        },{
+					            text: 'SS사업부',
+					            expanded: false,
+					            children: [{ 
+				                		leaf:true, 
+				                		text: '부장-스티브잡스' 
+			                		},{ 
+		                				leaf:true, 
+		                				text: '차장-빌게이츠' 
+	                				},{ 
+	              						leaf:true, 
+	              						text: '대리-주커버크' 
+	             						},{ 
+	             							leaf:true, 
+	             							text: '사원-몽고' 
+	           						}]
+					        },{
+					            text: '보안사업부문',
+					            expanded: false,
+					            children: [{ 
+				                		leaf:true, 
+				                		text: '부장-스티브잡스' 
+			                		},{ 
+		                				leaf:true, 
+		                				text: '차장-빌게이츠' 
+	                				},{ 
+	              						leaf:true, 
+	              						text: '대리-주커버크' 
+	             						},{ 
+	             							leaf:true, 
+	             							text: '사원-몽고' 
+	           						}]
+					        },{
+					            text: '경영지원팀',
+					            expanded: false,
+					            children: [{ 
+				                		leaf:true, 
+				                		text: '부장-스티브잡스' 
+			                		},{ 
+		                				leaf:true, 
+		                				text: '차장-빌게이츠' 
+	                				},{ 
+	              						leaf:true, 
+	              						text: '대리-주커버크' 
+	             						},{ 
+	             							leaf:true, 
+	             							text: '사원-몽고' 
+	           						}]
+					        }
+					    ]
+					}
+			}),
+			renderTo : 'tree'
+		})
+	})
+
+	
+	
+	
+	
 </script>
 
   

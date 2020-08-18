@@ -8,8 +8,23 @@ public class MasterCodeForm {
 	String use_yn;
 	String modify_id;
 	String modify_date;
+	private String search_field;
+	private String search_words;
+	
 	public int getMcode_seq() {
 		return mcode_seq;
+	}
+	public String getSearch_field() {
+		return search_field;
+	}
+	public void setSearch_field(String search_field) {
+		this.search_field = search_field;
+	}
+	public String getSearch_words() {
+		return search_words;
+	}
+	public void setSearch_words(String search_words) {
+		this.search_words = search_words;
 	}
 	public void setMcode_seq(int mcode_seq) {
 		this.mcode_seq = mcode_seq;

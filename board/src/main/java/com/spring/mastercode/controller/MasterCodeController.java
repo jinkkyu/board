@@ -28,7 +28,6 @@ import com.spring.board.form.BoardReplyForm;
 import com.spring.mastercode.dto.MasterCodeDto;
 import com.spring.mastercode.form.MasterCodeForm;
 import com.spring.mastercode.service.MasterCodeService;
-import com.spring.mastercode.service.MasterCodeService1;
 
 @Controller
 @RequestMapping(value = "/test")

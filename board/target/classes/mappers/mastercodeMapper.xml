@@ -12,18 +12,17 @@
 		mcode_seq, mcode, mdesc, remarks,
 		use_yn, modify_id, modify_date
 		from BOARD.commoncode
-		<!--  
 		<where>
-			<if test="search_words != null and search_words != '' ">
+		<if test="search_words != null and search_words != '' ">
 				<if test="search_field=='1'">
 					AND mcode like CONCAT('%', #{search_words}, '%')
 				</if>
-				<if test="search_field=='2''">
+				<if test="search_field=='2'">
 					AND mdesc like CONCAT('%', #{search_words}, '%')
 				</if>
 
-			</if>
-		</where>-->
+		</if>
+		</where>
 	</select>
 	
 	<select id="getMasterDetail"
