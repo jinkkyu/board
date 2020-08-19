@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import com.spring.mastercode.dto.OrganizationDto;
 import com.spring.mastercode.form.OrganizationForm;
+import com.spring.mastercode.model.GroupTreeModel;
+import com.spring.mastercode.model.OrganizationModel;
 
 @Repository
 public class OrganizationDao {
@@ -18,9 +20,15 @@ public class OrganizationDao {
 
 	private static final String NAMESPACE = "com.spring.board.organizationMapper";
 	
-	public List<OrganizationDto> getOrganizationList(OrganizationForm organizationForm) throws Exception{
+	/*public List<OrganizationDto> getOrganizationList(OrganizationForm organizationForm) throws Exception{
 		return sqlSession.selectList(NAMESPACE + ".getOrganizationList", organizationForm);
 		
-		
-	}
+	}*/
+	
+	public List<GroupTreeModel> getOrganizationTree( OrganizationModel param ) throws Exception{
+		return sqlSession.selectList(NAMESPACE + ".getOrganizationTree", param);
+	};
+	public List<OrganizationModel> getOrganizationList( OrganizationModel param ) throws Exception{
+		return sqlSession.selectList(NAMESPACE + ".getOrganizationList", param);
+	};
 }

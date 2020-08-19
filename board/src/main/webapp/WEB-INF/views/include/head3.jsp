@@ -46,98 +46,104 @@
 	});
 	Ext.onReady( function(){
 		 store = Ext.create('Ext.data.TreeStore',{
-			model: 'tree_model',
-			proxy: {
-				type: 'ajax',
-				url: '/test/getTreeList',
-				reader: {
-					type:'json',
-					root:'tree_model'
+				//model: 'tree_model',
+				root : {
+				    text: '레미탈 사업본부',
+				    expanded: false,							    
+				    id : '*'
+				 }, 
+				proxy: {
+					type: 'ajax',
+					url: 'TreeList.do',
+					reader: {
+						type:'json',
+						root: 'tree_model'
+					}
 				}
-			}
+				
+			});
 			
-		});
-		
-		var tree = Ext.create('Ext.tree.Panel',{
-			store: store,
-			rootVisible: false,
-			useArrows: true,
-			frame: false,
-			renderTo: 'organization_tree',
-			width: 190,
-			autoHeight: true,
-			header: false,
-			border:false,
-			listeners:{
-				itemdblclick: function( dv, record, item, index, e ){
-					onLoad(record.get("id"),record.get("text"),record.get("depth"),record.get("group_id"));
+			var tree = Ext.create('Ext.tree.Panel',{
+				store: store,
+				rootVisible: false,
+				useArrows: true,
+				frame: false,
+				renderTo: 'organization_tree',
+				width: 190,
+				autoHeight: true,
+				header: false,
+				border:false,
+				listeners:{
+					itemdblclick: function( dv, record, item, index, e ){
+						onLoad(record.get("id"),record.get("text"),record.get("group_id"));
+					},
+					itemclick: function( dv, record, item, index, e ){
+						 dept_code = record.get("id");
+						 adesc = record.get("text");
+						 group_id = record.get("group_id");
+					}
 				},
-				itemclick: function( dv, record, item, index, e ){
-					 dept_code = record.get("id");
-					 adesc = record.get("text");
-					 group_id = record.get("group_id");
-				}
-			},
-			dockedItems: [{
-				xtype: 'toolbar',
-				items: {
-					text:'조직도',
-					handler: function(){
-						var records = tree.getView().getChecked(), names=[];
-						Ext.Array.each( records, function(rec){
-								names.push(rec.get('text'));
-						});
-						Ext.MessageBox.show({
-							title: 'Selected Nodes',
-							msg: names.join('<br/>'),
-							icon: Ext.MessageBox.INFO
-						});
+				dockedItems: [{
+					xtype: 'toolbar',
+					items: {
+						text:'조직도',
+						handler: function(){
+							var records = tree.getView().getChecked(), names=[];
+							Ext.Array.each( records, function(rec){
+									names.push(rec.get('text'));
+							});
+							Ext.MessageBox.show({
+								title: 'Selected Nodes',
+								msg: names.join('<br/>'),
+								icon: Ext.MessageBox.INFO
+							});
+						}
+					}
+				}]
+			});
+			
+			grid_store = Ext.create('Ext.data.Store',{
+				autoLoad: true,
+				autoSync: true,
+				model: 'organization',
+				proxy:{
+					type:'ajax',
+					url:'list.do',
+					reader: {
+						type: 'json',
+						root: 'organization'
 					}
 				}
-			}]
-		});
-		
-		grid_store = Ext.create('Ext.data.Store',{
-			autoLoad: true,
-			autoSync: true,
-			model: 'organization',
-			proxy:{
-				type:'ajax',
-				url:'/test/getOrganizationList',
-				reader: {
-					type: 'json',
-					root: 'organization'
-				}
-			}
-		});
-		
-		var organization_grid = Ext.create('Ext.grid.Panel',{
-			columnLines: true,
-			forceFit: true,
-			cls: "table01",
-			autoWidth: true,
-			height: 382,
-			loadMask: true,
-			store: grid_store,
-			enableColumnResize: false,
-			border: false,
-			viewConfig: {
+			});
+			
+			var organization_grid = Ext.create('Ext.grid.Panel',{
+				columnLines: true,
 				forceFit: true,
-				loadMask: {msg:'로딩중...'},
-				listeners: {
-					itemdblclick: function(dv, record, item, index, e){
-						onDisplay("detail");
-						onView(record.get("dept_code"), record.get("parent_dept"),record.get("parent_desc"));
+				cls: "table01",
+				autoWidth: true,
+				height: 382,
+				loadMask: true,
+				store: grid_store,
+				enableColumnResize: false,
+				border: false,
+				viewConfig: {
+					forceFit: true,
+					loadMask: {msg:'로딩중...'},
+					listeners: {
+						itemdblclick: function(dv, record, item, index, e){
+							onDisplay("detail");
+							onView(record.get("dept_code"), record.get("parent_dept"),record.get("parent_desc"));
+						}
 					}
-				}
-			},
-			columns: [{ header:'상위부서', align:'center', dataIndex:'parent_dept' },
-			          { header:'부서코드', align:'center', dataIndex:'dept_code'},
-			          { header:'부서명', align:'center', dataIndex:'adesc'},
-			          { header:'사용여부', align:'center', dataIndex:'use_yn'}],
-			renderTo:'organization_grid'
+				},
+				columns: [{ header:'상위부서', align:'center', dataIndex:'parent_dept' },
+				          { header:'부서코드', align:'center', dataIndex:'dept_code'},
+				          { header:'부서명', align:'center', dataIndex:'adesc'},
+				          { header:'사용여부', align:'center', dataIndex:'use_yn'}],
+				renderTo:'organization_grid'
+			});
 		});
-	});
+
 	
 	function onView(dept_code, parent_dept,parent_desc){
 		
@@ -145,7 +151,7 @@
 		frm.parent_dept.value = parent_dept;
 		onDisplay("detail");
 		$.ajax({
-			url:'/admin/Organization/DetailInfo.hanil',
+			url:'/test/DetailInfo.do',
 			type:'post',
 			data:$(frm).serialize(),
 			error:function(){
@@ -199,7 +205,7 @@
 		frm.adesc.value = document.getElementById("txt_adesc").value;
 		frm.use_yn.value = document.getElementById("use_y").checked==true?"Y":"N";
 		$.ajax({
-			url:'/admin/Organization/insert.hanil',
+			url:'/test/OrganizationInsert.do',
 			type:'post',
 			data:$(frm).serialize(),
 			error:function(){
@@ -237,7 +243,7 @@
 		frm.adesc.value = document.getElementById("txt_adesc").value;
 		frm.use_yn.value = document.getElementById("use_y").checked==true?"Y":"N";
 		$.ajax({
-			url:'/admin/Organization/update.hanil',
+			url:'/test/OrganizationUpdate.do',
 			type:'post',
 			data:$(frm).serialize(),
 			error:function(){
@@ -260,7 +266,7 @@
 		
 		frm.dept_code.value = document.getElementById("txt_dept_code").value;
 		$.ajax({
-			url:'/admin/Organization/delete.hanil',
+			url:'/test/OrganizationDelete.do',
 			type: 'post',
 			data:$(frm).serialize(),
 			error:function(){
@@ -374,128 +380,7 @@
 	}
 	
 	
-	Ext.onReady(function(){
-		Ext.create('Ext.tree.Panel',{
-			width : 500,
-			height : 800,
-			title : '한일네트웍스 조직도 ',
-			store : Ext.create('Ext.data.TreeStore',{
-				 root : {
-					    text: '한일네트웍스',
-					    expanded: true,
-					    children: [
-							{
-					            text: '임원실',
-					            expanded: true,
-					            children: [{ 
-				                		leaf:true, 
-				                		text: '박지훈 대표이사' 
-			                		},{ 
-				                		leaf:true, 
-				                		text: '허기수 부사장' 
-			                		},{ 
-				                		leaf:true, 
-				                		text: '이재승 전무' 
-			                		}]
-					        },{
-					            text: 'DSC사업부',
-					            expanded: true,
-					            children: [{ 
-					            		leaf:true, 
-					            		text: '차장-이순신' 
-				            		},{ 
-			            				leaf:true, 
-			            				text: '과장-장영실' 
-		            				}]
-					        },{
-					            text: 'SM사업부',
-					            expanded: false,
-					            children: [{ 
-				                		leaf:true, 
-				                		text: '민기혁 상무보'
-				                		
-						                		},{
-						                			text: '사업1팀',
-						                			expanded:false,
-						                			children:[{
-								                				text: 'ERP1파트',
-								                				expanded:false,
-								                			},{
-								                				text: 'ERP2파트',
-								                				expanded:false,
-								                			},{
-								                				text: 'ERP3파트',
-								                				expanded:false,
-								                			}]
-						                		},{
-						                			text: '사업2팀',
-						                			expanded:false,
-						                			children:[{
-								                				text: '인프라파트',
-								                				expanded:false,
-						                			},{
-						                				text: '그룹웨어파트',
-						                				expanded:false,
-						                			},{
-						                				text: '웹파트',
-						                				expanded:false,
-						                			}]
-			                		}]
-					        },{
-					            text: 'SS사업부',
-					            expanded: false,
-					            children: [{ 
-				                		leaf:true, 
-				                		text: '부장-스티브잡스' 
-			                		},{ 
-		                				leaf:true, 
-		                				text: '차장-빌게이츠' 
-	                				},{ 
-	              						leaf:true, 
-	              						text: '대리-주커버크' 
-	             						},{ 
-	             							leaf:true, 
-	             							text: '사원-몽고' 
-	           						}]
-					        },{
-					            text: '보안사업부문',
-					            expanded: false,
-					            children: [{ 
-				                		leaf:true, 
-				                		text: '부장-스티브잡스' 
-			                		},{ 
-		                				leaf:true, 
-		                				text: '차장-빌게이츠' 
-	                				},{ 
-	              						leaf:true, 
-	              						text: '대리-주커버크' 
-	             						},{ 
-	             							leaf:true, 
-	             							text: '사원-몽고' 
-	           						}]
-					        },{
-					            text: '경영지원팀',
-					            expanded: false,
-					            children: [{ 
-				                		leaf:true, 
-				                		text: '부장-스티브잡스' 
-			                		},{ 
-		                				leaf:true, 
-		                				text: '차장-빌게이츠' 
-	                				},{ 
-	              						leaf:true, 
-	              						text: '대리-주커버크' 
-	             						},{ 
-	             							leaf:true, 
-	             							text: '사원-몽고' 
-	           						}]
-					        }
-					    ]
-					}
-			}),
-			renderTo : 'tree'
-		})
-	})
+	
 
 	
 	

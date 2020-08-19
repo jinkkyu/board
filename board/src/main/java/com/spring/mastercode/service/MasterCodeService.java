@@ -30,11 +30,12 @@ public class MasterCodeService {
 
 	/** 목록 조회 */
 	public HashMap<String, Object> getMasterList(MasterCodeForm masterForm) throws Exception {
-		
+		System.out.println(masterForm.getMcode());
 		List<MasterCodeDto> list = mastercodeDao.getMasterList(masterForm);
-
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("commonCode", list);
+		
+		System.out.println(resultMap);
 		
 		return resultMap;
 	}

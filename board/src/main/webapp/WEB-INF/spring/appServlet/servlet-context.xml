@@ -40,7 +40,31 @@
 	</context:component-scan>
 	<context:component-scan base-package="com.spring.user" />
 	<context:component-scan base-package="com.spring.mastercode" />
-
+	
+	<!-- invoke 하기전에 SpringFramework내에서 선 처리로직 수행-->
+	<beans:bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" >
+		<beans:property name="messageConverters">
+			<beans:list>
+				<beans:bean class="org.springframework.http.converter.StringHttpMessageConverter">
+					<beans:property name="supportedMediaTypes">
+						<beans:list>
+							<beans:value>text/plain;charset=utf-8</beans:value>
+						</beans:list>
+					</beans:property>
+				</beans:bean>
+				<!-- Media Type 호출시 사용 -->
+				<beans:bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <beans:bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+                <beans:bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+                <!-- 자바 오브젝트와 XML 문서를 자동변환해주는 메시지 컨버터다 -->
+                <beans:bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"/>
+                <beans:bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter"/>
+                <!-- 자바 오브젝트와 JSON 문서를 자동변환해주는 메시지 컨버터다 -->
+                 <beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
 	<mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
@@ -48,7 +72,7 @@
         </mvc:interceptor>
     </mvc:interceptors>
     
-    <beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+   
 
 	<!-- MultipartResolver 설정 -->
     <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

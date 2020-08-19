@@ -3,15 +3,40 @@
 
 <mapper namespace="com.spring.board.organizationMapper">
 
+	<!-- 조직도 리스트 -->
+	
 	<!-- 데이터를 불러올때는 result Type 사용 -->
 	<select id="getOrganizationList"
-		parameterType="com.spring.mastercode.form.OrganizationForm"
-		resultType="com.spring.mastercode.dto.OrganizationDto">
-		select
-		*
-		from BOARD.organization
+		parameterType="com.spring.mastercode.model.OrganizationModel"
+		resultType="com.spring.mastercode.model.OrganizationModel">
+		select *
+		from
+		board.organization
 		  
 	</select>
+	
+	<!-- 조직도 트리 -->
+	<!-- 데이터를 불러올때는 result Type 사용 -->
+	<select id="getOrganizationTree"
+		parameterType="com.spring.mastercode.model.OrganizationModel"
+		resultType="com.spring.mastercode.model.GroupTreeModel">
+		SELECT 
+				DEPT_CODE AS id,
+				DEPT_GROUP AS group_id,
+				PARENT_DEPT AS up_id,
+				DEPTH AS depth,
+				ADESC AS text
+
+			FROM 
+				BOARD.ORGANIZATION
+		  
+	</select>
+	
+	
+	
+	
+	
+	
 	
 	
 	
